@@ -1,10 +1,12 @@
 <script>
-	export let name;
+  import MatchPlayer from "./Components/MatchPlayer.svelte"
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	<h1>Chessy Web UI!</h1>
+	<MatchPlayer class="match-player"/>
+	
+	<p>Over-simplistic UI powered by Svelte</p>
 </main>
 
 <style>
