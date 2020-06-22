@@ -1,4 +1,5 @@
 import copy from "rollup-plugin-copy";
+import json from "@rollup/plugin-json";
 import svelte from "rollup-plugin-svelte";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
@@ -25,7 +26,7 @@ export default {
         css.write("public/build/bundle.css");
       },
     }),
-
+    // Copy Assets (images) to the output folder
     copy({
       targets: [
         {
@@ -34,6 +35,9 @@ export default {
         },
       ],
     }),
+    // manage to read json files as objects
+    json(),
+
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
     // some cases you'll need additional configuration -

@@ -1,49 +1,9 @@
 <script>
     import Board from './Board.svelte'
+    import {getGame } from '../Data/GameProvider'
 
-    // TODO: consume from another file (JSON?)
-    const boards = [
-      [
-        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
-      ],
-      [
-        ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['.', '.', '.', '.', 'P', '.', '.', '.'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['P', 'P', 'P', 'P', '.', 'P', 'P', 'P'],
-        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
-      ],
-      [
-        ['r', '.', 'b', 'q', 'k', 'b', 'n', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        ['.', '.', 'n', '.', '.', '.', '.', '.'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['.', '.', '.', '.', 'P', '.', '.', '.'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['P', 'P', 'P', 'P', '.', 'P', 'P', 'P'],
-        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
-      ],
-      [
-        ['r', '.', 'b', 'q', 'k', 'b', 'n', 'r'],
-        ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        ['.', '.', 'n', '.', '.', '.', '.', '.'],
-        ['.', '.', '.', '.', '.', '.', '.', '.'],
-        ['.', '.', '.', '.', 'P', '.', '.', '.'],
-        ['.', '.', '.', 'P', '.', '.', '.', '.'],
-        ['P', 'P', 'P', '.', '.', 'P', 'P', 'P'],
-        ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
-      ]
-    ]
+
+    const game = getGame('anyone');
 
     let boardIndex = 0;
 
@@ -54,16 +14,16 @@
     }
 
     const playNext = () => {
-      boardIndex = clamp(boardIndex+1, 0, boards.length-1)
+      boardIndex = clamp(boardIndex+1, 0, game.steps.length-1)
     }
 
     const playBefore = () => {
-      boardIndex = clamp(boardIndex-1, 0, boards.length-1)
+      boardIndex = clamp(boardIndex-1, 0, game.steps.length-1)
     }
 </script>
 
 <main>
-  <Board boardPieces={boards[boardIndex]} />
+  <Board boardPieces={game.steps[boardIndex].board} />
   <div >
     <button on:click={playBefore}>{"<"}</button>
     <button on:click={playNext}>{">"}</button>

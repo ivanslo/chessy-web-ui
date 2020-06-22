@@ -1,0 +1,31 @@
+{
+  "steps": [
+    {
+      "fenAfter": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+    },
+    {
+      "fenAfter": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR"
+    },
+    {
+      "fenAfter": "r1bqkbnr/pppppppp/2n5/8/4P3/8/PPPP1PPP/RNBQKBNR"
+    },
+    {
+      "fenAfter": "r1bqkbnr/pppppppp/2n5/8/4P3/3P4/PPP2PPP/RNBQKBNR"
+    },
+    {
+      "fenAfter": "r1bqkbnr/ppppp1pp/2n5/5p2/4P3/3P4/PPP2PPP/RNBQKBNR"
+    },
+    {
+      "fenAfter": "r1bqkbnr/ppppp1pp/2n5/5P2/8/3P4/PPP2PPP/RNBQKBNR"
+    },
+    {
+      "fenAfter": "r1bqkb1r/ppppp1pp/2n2n2/5P2/8/3P4/PPP2PPP/RNBQKBNR"
+    },
+    {
+      "fenAfter": "r1bqkb1r/ppp1p1pp/2np1n2/5P2/8/2NP4/PPP2PPP/R1BQKBNR"
+    },
+    {
+      "fenAfter": "r1bqkb1r/ppp1p1pp/2np1n2/5P2/8/2NPB3/PPP2PPP/R2QKBNR"
+    }
+  ]
+}
