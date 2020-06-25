@@ -1,8 +1,8 @@
 
-<script>
+<script >
     export let piece = '.'; 
 
-    $: isWhite = ['R', 'N', 'B', 'K', 'Q', 'P'].some(p => p === piece);
+    $: isWhite = ['R', 'N', 'B', 'K', 'Q', 'P'].some(p => p === piece)
     $: imgName = `${isWhite ? 'W' : 'B'}${piece.toUpperCase()}`
     $: imgSrc = `/build/assets/chess_pieces/${imgName}.svg`
 

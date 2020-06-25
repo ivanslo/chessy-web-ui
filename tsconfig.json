@@ -1,0 +1,10 @@
+{
+  "include": ["src/**/*"],
+  "exclude": ["node_modules/*", "**/*/*.json"],
+  "compilerOptions": {
+    "target": "es6",
+    "types": ["node", "svelte"],
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  }
+}

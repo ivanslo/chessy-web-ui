@@ -1,13 +1,13 @@
-<script>
+<script lang="typescript">
     import Board from './Board.svelte'
-    import {getGame } from '../Data/GameProvider'
+    import { getGame , Game } from '../Data/GameProvider'
 
 
-    const game = getGame('anyone');
+    const game:Game = getGame('anyone');
 
-    let boardIndex = 0;
+    let boardIndex: number = 0;
 
-    const clamp = (n, min, max) => {
+    const clamp = (n:number, min: number, max:number) =>  {
       if( n < min ) return min;
       if( n > max ) return max;
       return n;
