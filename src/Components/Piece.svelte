@@ -13,7 +13,7 @@
 </script>
 
 
-<div class='piece'>
+<div class='piece' data-piecevalue={piece} data-testid="piece">
     {#if whitePieces.some(p => p === piece.toUpperCase()) }
         <img src={imgSrc} alt={altText} data-testid="piece-img"/>
     {/if}

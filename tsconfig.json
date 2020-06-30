@@ -3,8 +3,9 @@
   "exclude": ["node_modules/*", "**/*/*.json"],
   "compilerOptions": {
     "target": "es6",
-    "types": ["node", "svelte"],
+    "types": ["node", "svelte", "jest"],
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }

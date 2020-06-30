@@ -1,6 +1,6 @@
 <script>
   import Piece from './Piece.svelte'
-  export let boardPieces;
+  export let boardPieces = [[]];
 </script>
 
 <main>
