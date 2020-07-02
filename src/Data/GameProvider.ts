@@ -11,6 +11,14 @@ interface Game {
   steps: Step[];
 }
 
+export const fenToStepBoard: (fen: string) => string[] = (fen: string) => {
+  return fen
+    .split("")
+    .map((a) => (/\d/.test(a) ? ".".repeat(parseInt(a)) : a))
+    .join("")
+    .split("/");
+};
+
 const getGame: (gameId: string) => Game = (gameId: string) => {
   // --- game 1
   // return game1;
@@ -19,11 +27,7 @@ const getGame: (gameId: string) => Game = (gameId: string) => {
   // --- game 2
   for (let step of game2.steps) {
     returnGame.steps.push({
-      board: step.fenAfter
-        .split("")
-        .map((a) => (/\d/.test(a) ? ".".repeat(parseInt(a)) : a))
-        .join("")
-        .split("/"),
+      board: fenToStepBoard(step.fenAfter),
     });
   }
   return returnGame;
