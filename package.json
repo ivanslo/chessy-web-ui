@@ -5,12 +5,13 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@babel/preset-env": "^7.10.3",
     "@rollup/plugin-commonjs": "^12.0.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-typescript": "^5.0.0",
     "@testing-library/svelte": "^3.0.0",
@@ -31,7 +32,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "@rollup/plugin-json": "^4.1.0",
+    "query-string": "^6.13.1",
     "sirv-cli": "^0.4.4"
   }
 }

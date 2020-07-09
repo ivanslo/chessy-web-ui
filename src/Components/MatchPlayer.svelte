@@ -1,9 +1,6 @@
 <script >
     import Board from './Board.svelte'
-    import { getGame } from '../Data/GameProvider'
-
-
-    const game = getGame('anyone');
+    export let game; 
 
     let boardIndex = 0;
 
@@ -22,8 +19,8 @@
     }
 </script>
 
-<main>
-  <Board boardPieces={game.steps[boardIndex].board} />
+<main data-testid="match-player">
+  <Board boardPieces={game.steps[boardIndex].boardStrings} />
   <div >
     <button on:click={playBefore}>{"<"}</button>
     <button on:click={playNext}>{">"}</button>

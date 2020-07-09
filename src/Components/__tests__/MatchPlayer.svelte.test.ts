@@ -1,50 +1,46 @@
-jest.mock("../../Data/GameProvider", () => ({
-  getGame: (name: string) => {
-    return {
-      steps: [
-        {
-          board: [
-            "rnbqkbnr",
-            "pppppppp",
-            "........",
-            "........",
-            "........",
-            "........",
-            "PPPPPPPP",
-            "RNBQKBNR",
-          ],
-        },
-        {
-          board: [
-            "rnbqkbnr",
-            "pppppppp",
-            "........",
-            "........",
-            "....P...",
-            "........",
-            "PPPP PPP",
-            "RNBQKBNR",
-          ],
-        },
-        {
-          board: [
-            "rnbqkbnr",
-            "pppp.ppp",
-            "........",
-            "....p...",
-            "....P...",
-            "........",
-            "PPPP PPP",
-            "RNBQKBNR",
-          ],
-        },
+const mockGame = {
+  steps: [
+    {
+      boardStrings: [
+        "rnbqkbnr",
+        "pppppppp",
+        "........",
+        "........",
+        "........",
+        "........",
+        "PPPPPPPP",
+        "RNBQKBNR",
       ],
-    };
-  },
-}));
+    },
+    {
+      boardStrings: [
+        "rnbqkbnr",
+        "pppppppp",
+        "........",
+        "........",
+        "....P...",
+        "........",
+        "PPPP PPP",
+        "RNBQKBNR",
+      ],
+    },
+    {
+      boardStrings: [
+        "rnbqkbnr",
+        "pppp.ppp",
+        "........",
+        "....p...",
+        "....P...",
+        "........",
+        "PPPP PPP",
+        "RNBQKBNR",
+      ],
+    },
+  ],
+};
+
 import MatchPlayer from "../MatchPlayer.svelte";
 import { render, fireEvent } from "@testing-library/svelte";
-import { getGame } from "../../Data/GameProvider";
 
 // getIndex: helper function. given 'a' and '8', returns the index of such position
 // in the board represented by the 1-dimension array ('0' in this case)
@@ -68,7 +64,9 @@ describe("MatchPlayer", () => {
     jest.useFakeTimers();
   });
   test("Pressing the > Buttons moves to the next postiion", async () => {
-    const { getByText, queryAllByTestId } = render(MatchPlayer);
+    const { getByText, queryAllByTestId } = render(MatchPlayer, {
+      game: mockGame,
+    });
 
     const pieces = queryAllByTestId("piece");
     const pieceValues = pieces.map((p) => p.dataset.piecevalue);
@@ -102,9 +100,11 @@ describe("MatchPlayer", () => {
   test("the effects of >  button is limitted to the amount of movements in the board", async () => {
     // Actually, the `>` should be disabled in the UI at the limit.
     // However, this tests ensures the board looks the same even if keep pressing `>`
-    const { getByText, queryAllByTestId } = render(MatchPlayer);
+    const { getByText, queryAllByTestId } = render(MatchPlayer, {
+      game: mockGame,
+    });
     const buttonForward = getByText(">");
-    const gameLength = getGame("").steps.length;
+    const gameLength = mockGame.steps.length;
 
     const pieceValuesArr = [];
 
@@ -128,10 +128,12 @@ describe("MatchPlayer", () => {
   test("the effects of < button is bounded to be always 0 and above", async () => {
     // Actually, the `<` should be disabled in the UI at the limit.
     // However, this tests ensures the board looks the same even if keep pressing `<`
-    const { getByText, queryAllByTestId } = render(MatchPlayer);
+    const { getByText, queryAllByTestId } = render(MatchPlayer, {
+      game: mockGame,
+    });
     const buttonForward = getByText(">");
     const buttonBackward = getByText("<");
-    const gameLength = getGame("").steps.length;
+    const gameLength = mockGame.steps.length;
 
     const pieceValuesArr = [];
 

@@ -37,6 +37,10 @@ export default {
           src: "assets/chess_pieces/*",
           dest: "public/build/assets/chess_pieces",
         },
+        {
+          src: "assets/ui/*",
+          dest: "public/build/assets/ui",
+        },
       ],
     }),
     // manage to read json files as objects

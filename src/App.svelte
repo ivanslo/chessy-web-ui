@@ -1,11 +1,31 @@
 <script>
+  import * as queryString from "query-string"
   import MatchPlayer from "./Components/MatchPlayer.svelte"
+  import LoadingError from "./Components/LoadingError.svelte"
+  let gameId = queryString.parseUrl(window.location.href).query.gameId
+  import { getGame } from './Data/GameProvider'
+  
+  async function fetchGame(gId) {
+    if (!gId) {
+	  throw Error('No gameId specified')
+    }
+    return getGame(gId);
+  }
+
+  let gamePromise = fetchGame(gameId);
 </script>
 
 <main>
 	<h1>Chessy Web UI!</h1>
-	<MatchPlayer class="match-player"/>
 	
+  {#await gamePromise}
+	<LoadingError failed={false} />
+  {:then game}
+	<MatchPlayer class="match-player" game={game}/>
+  {:catch error}
+	<LoadingError failed={true} errorMsg={error.message}/>
+  {/await}
+
 	<p>Over-simplistic UI powered by Svelte</p>
 </main>
 

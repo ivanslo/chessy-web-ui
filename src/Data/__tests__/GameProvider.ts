@@ -1,4 +1,4 @@
-import { fenToStepBoard } from "../GameProvider";
+import { fenToStepBoard, getGame } from "../GameProvider";
 
 const countHowMany = (board: string[], str: string) => {
   let count = 0;
@@ -52,5 +52,98 @@ describe("fenToStepBoard - FEN to an array of strings", () => {
     expect(bKing).toEqual(1);
     const bQueen = countHowMany(stepBoard, "q");
     expect(bQueen).toEqual(1);
+  });
+});
+
+describe("getGame", () => {
+  const initialBoardInFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+  const initialBoardProcessed = [
+    "rnbqkbnr",
+    "pppppppp",
+    "........",
+    "........",
+    "........",
+    "........",
+    "PPPPPPPP",
+    "RNBQKBNR",
+  ];
+
+  describe("fetch succesful ", () => {
+    const mockJsonResponse = jest.fn();
+    beforeEach(() => {
+      (global as any).fetch = jest.fn().mockResolvedValue({
+        ok: true,
+        json: mockJsonResponse,
+      });
+    });
+    test("Succesful getGame retuns the game processed", async () => {
+      mockJsonResponse.mockResolvedValue({
+        steps: [{ board: initialBoardInFEN }],
+      });
+      const result = await getGame("");
+      expect(result).toEqual({
+        steps: [{ boardStrings: initialBoardProcessed }],
+      });
+    });
+    test("Fetched JSON is not a json", async () => {
+      mockJsonResponse.mockResolvedValue("hello world");
+      await expect(getGame("")).rejects.toThrow(/parsing.*object/);
+    });
+    test("Fetched JSON is malformed - unknown key 1", async () => {
+      mockJsonResponse.mockResolvedValue({
+        nosteps: [],
+      });
+      await expect(getGame("")).rejects.toThrow(/parsing.*steps/);
+    });
+    test("Fetched JSON is malformed - unknown key 2", async () => {
+      mockJsonResponse.mockResolvedValue({
+        steps: [{ noBoard: "" }],
+      });
+      await expect(getGame("")).rejects.toThrow(/parsing.*board/);
+    });
+    test("Fetched JSON has extra data", async () => {
+      mockJsonResponse.mockResolvedValue({
+        steps: [{ board: "asdf", extra: "" }],
+      });
+      await expect(getGame("")).resolves.not.toThrow();
+    });
+  });
+  describe("fetch unsuccesful ", () => {
+    /*
+    Fetch either rejects the promise or resolve with `ok: false`
+    https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+ 
+    In any case, `getGame` should reject and be handled by the caller
+    */
+    const mockJest = jest.fn();
+    beforeEach(() => {
+      (global as any).fetch = mockJest;
+    });
+    test("fetch rejects the promise (CORS, internet..)", async () => {
+      mockJest.mockRejectedValue(new Error("CORS issues"));
+      await expect(getGame("")).rejects.toThrow(/CORS/);
+    });
+    test("fetch failes with an http error (ok=false)", async () => {
+      mockJest.mockResolvedValue({ ok: false });
+      await expect(getGame("")).rejects.toThrow(/downloading/);
+    });
+  });
+  describe("fetch URL", () => {
+    const mockFetch = jest.fn().mockResolvedValue({ ok: false });
+    beforeEach(() => {
+      (global as any).fetch = mockFetch;
+    });
+    test("fetch includes the gameId in the URL ", async () => {
+      await expect(getGame("12345")).rejects.toThrow(/downloading/);
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringMatching(/12345/),
+        expect.any(Object)
+      );
+      await expect(getGame("98765")).rejects.toThrow(/downloading/);
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringMatching(/98765/),
+        expect.any(Object)
+      );
+    });
   });
 });
