@@ -20,7 +20,7 @@ export const fenToStepBoard: (fen: string) => string[] = (fen: string) => {
 };
 
 const getGame: (gameId: string) => Promise<Game> = async (gameId: string) => {
-  const gameUrl = `https://chessy-processed-games.s3.eu-west-2.amazonaws.com/game${gameId}.json`;
+  const gameUrl = `https://chessy-processed-games.s3.eu-west-2.amazonaws.com/v1/game${gameId}.json`;
 
   const response = await fetch(gameUrl, { method: "GET" });
 
