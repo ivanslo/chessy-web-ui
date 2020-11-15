@@ -1,5 +1,7 @@
 <script >
     import Board from './Board.svelte'
+    import { createEventDispatcher } from "svelte"
+
     export let game; 
 
     let boardIndex = 0;
@@ -17,6 +19,12 @@
     const playBefore = () => {
       boardIndex = clamp(boardIndex-1, 0, game.steps.length-1)
     }
+
+   const dispatch = createEventDispatcher();
+
+    const goBack = () => {
+      dispatch('backFromMatch');
+    }
 </script>
 
 <main data-testid="match-player">
@@ -24,6 +32,7 @@
   <div >
     <button on:click={playBefore}>{"<"}</button>
     <button on:click={playNext}>{">"}</button>
+    <button on:click={goBack}>{"<back>"}</button>
   </div>
 </main>
 
@@ -31,11 +40,9 @@
 <style>
 
 main {
-  background-color: rgb(147, 177, 203);
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding:2em;
 }
 
 </style>

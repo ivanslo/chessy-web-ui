@@ -3,7 +3,6 @@
   export let boardPieces = [[]];
 </script>
 
-<main>
   <div class="board">
     {#each boardPieces as piecesRow, nr}
       {#each piecesRow as piece}
@@ -19,20 +18,16 @@
       {/each}
     {/each}
   </div>
-</main>
 
 
 
 <style>
 .board{
-  background-color: burlywood;
-  display:grid;
+  display: grid;
   grid-template-rows: repeat(8,1fr) ;
-  grid-template-columns: repeat(8,1fr) 
+  grid-template-columns: repeat(8,1fr);
+  border: 3px solid #0A0908;
 }  
-.board-position{
-  padding: 10px;
-}
 .even-row:nth-child(odd) {
   background-color:white;
 }

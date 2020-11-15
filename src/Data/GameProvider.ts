@@ -19,6 +19,33 @@ export const fenToStepBoard: (fen: string) => string[] = (fen: string) => {
     .split("/");
 };
 
+/**
+ * Parse the game downloaded, adding a new member per board position called `boardStrings`.
+ * This new memeber is a 2d array of the board. It's obtained by parsing the FEN string in the game
+ * @param inputGame a game-type object, which a `steps` array, where each element has a `board` string memeber.
+ */
+export const parseGame: (inputGame: object) => Game = (inputGame: object) => {
+  const returnGame: Game = { steps: [] as Step[] };
+  try {
+    const validGameJson = receivedGameValidator(inputGame);
+
+    for (let step of validGameJson.steps) {
+      returnGame.steps.push({
+        boardStrings: fenToStepBoard(step.board),
+      });
+    }
+  } catch (error) {
+    throw Error(`Error while parsing the game: ${error.message}`);
+  }
+  return returnGame;
+};
+
+/**
+ * @deprecated
+ * getGame fetches the game from S3 and parses it.
+ * TODO: remove it
+ * @param gameId
+ */
 const getGame: (gameId: string) => Promise<Game> = async (gameId: string) => {
   const gameUrl = `https://chessy-processed-games.s3.eu-west-2.amazonaws.com/v1/game${gameId}.json`;
 
@@ -29,21 +56,8 @@ const getGame: (gameId: string) => Promise<Game> = async (gameId: string) => {
       `Error while downloading the game with gameId=${gameId}. HTTP Status: ${response.status}`
     );
   }
-  const returnGame: Game = { steps: [] as Step[] };
-
-  try {
-    const gameJson = await response.json();
-    const validGameJson = receivedGameValidator(gameJson);
-
-    for (let step of validGameJson.steps) {
-      returnGame.steps.push({
-        boardStrings: fenToStepBoard(step.board),
-      });
-    }
-  } catch (error) {
-    throw Error(`Error while parsing the downloaded file: ${error.message}`);
-  }
-  return returnGame;
+  const game = await response.json();
+  return parseGame(game);
 };
 
 export { getGame, Game };

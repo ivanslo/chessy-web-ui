@@ -2,51 +2,87 @@
   import * as queryString from "query-string"
   import MatchPlayer from "./Components/MatchPlayer.svelte"
   import LoadingError from "./Components/LoadingError.svelte"
-  let gameId = queryString.parseUrl(window.location.href).query.gameId
-  import { getGame } from './Data/GameProvider'
+  import GameList  from "./Components/GameList.svelte"
+  import { getGame, parseGame } from './Data/GameProvider'
   
-  async function fetchGame(gId) {
-    if (!gId) {
-	  throw Error('No gameId specified')
+  /* Context API - Store the list of games, and don't fetch it over and over
+  ------------------------------------------------------------------------------*/
+  import { setContext } from "svelte";
+
+  import { gameURL } from "./Data/Constants"
+  let allGames = undefined;
+
+  setContext('gamesCache', { 
+    getGameList: () => allGames,
+    setGameList: (newGameList) => {
+      allGames = newGameList
     }
-    return getGame(gId);
+  });
+
+  /* Select/show game from list
+  ----------------------------------*/
+  let selectedGame = undefined;
+  let selectedGameDownloaded = undefined
+
+  async function fetcdhGameSpecific(gameId) {
+    const queryBody = { 'gameId': gameId}
+    const gameUrl = `${gameURL}`;
+    const response = await fetch(gameUrl, { method: "POST", body: JSON.stringify(queryBody), headers:{"Content-Type":"application/json"}});
+    const json = await response.json();
+    const game = parseGame(JSON.parse(json.Item.jsonFile.S))
+    return game
+  }
+  
+  const handleGameSelected = (event) => {
+    selectedGame = event.detail.text
+    selectedGameDownloaded = fetcdhGameSpecific(selectedGame)
   }
 
-  let gamePromise = fetchGame(gameId);
+  const handleBackFromMatch = (event) => {
+    selectedGame = undefined
+  }
 </script>
 
-<main>
-	<h1>Chessy Web UI!</h1>
-	
-  {#await gamePromise}
-	<LoadingError failed={false} />
-  {:then game}
-	<MatchPlayer class="match-player" game={game}/>
-  {:catch error}
-	<LoadingError failed={true} errorMsg={error.message}/>
-  {/await}
 
-	<p>Over-simplistic UI powered by Svelte</p>
+<h1>CHESSY</h1>
+<main>
+
+{#if selectedGame === undefined }
+  <GameList on:gameSelected={handleGameSelected}/>
+{:else}
+  {#await selectedGameDownloaded}
+    <LoadingError failed={false} />
+  {:then result}
+    <MatchPlayer on:backFromMatch={handleBackFromMatch} game={result}/>
+  {:catch error}
+    <LoadingError failed={true} errorMsg={error.message}/>
+  {/await} 
+{/if}
+
 </main>
+<footer>Over-simplistic UI powered by Svelte</footer>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+main {
+  flex: 1;
+  display: flex;
+  overflow: scroll;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
+h1 {
+  color: #0A0908;
+  font-size: 3em;
+}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
+footer {
+  width: 100%;
+  padding: 10px;
+  color: #F5F0F6;
+  text-align: center;
+  background-color:#22333B;
+  font-family: 'aceh';
+}
 </style>

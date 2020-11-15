@@ -18,3 +18,19 @@
         <img src={imgSrc} alt={altText} data-testid="piece-img"/>
     {/if}
 </div>
+
+<style>
+    .piece {
+        width: 30px;
+        height: 30px;
+    }
+    img{
+        width: 100%;
+    }
+    @media (min-width: 640px) {
+		.piece {
+            width: 80px;
+            height: 80px;
+        }
+    }
+</style>

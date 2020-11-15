@@ -15,7 +15,6 @@
 
  <p>Loading Failed</p>
  <p class="error" data-testid="loading-error-msg">{errorMsg}</p>
- <p class="instructions" data-testid="loading-instructons-msg">Please pass a valid <i>gameId</i> value in the query</p>
 
 {/if}
 

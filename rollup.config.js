@@ -41,6 +41,14 @@ export default {
           src: "assets/ui/*",
           dest: "public/build/assets/ui",
         },
+        {
+          src: "assets/art/*",
+          dest: "public/build/assets/art",
+        },
+        {
+          src: "assets/fonts/*",
+          dest: "public/build/assets/fonts",
+        },
       ],
     }),
     // manage to read json files as objects

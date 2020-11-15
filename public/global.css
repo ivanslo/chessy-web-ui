@@ -1,66 +1,76 @@
-html, body {
-	position: relative;
-	width: 100%;
-	height: 100%;
+html,
+body {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 body {
-	color: #333;
-	margin: 0;
-	padding: 8px;
-	box-sizing: border-box;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    color: #0a0908;
+    margin: 0;
+    height: 100vh;
+    background-color: #f5f0f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-family: "aceh";
+    background-image: url("/build/assets/art/knight.svg");
+    background-repeat: no-repeat;
+    background-position: left -4em bottom -1em;
+    background-size: auto 50%;
 }
 
-a {
-	color: rgb(0,100,200);
-	text-decoration: none;
+@font-face {
+    font-family: "museo-slab";
+    src: url("/build/assets/fonts/Museo_Slab_500.otf") format("opentype");
 }
 
-a:hover {
-	text-decoration: underline;
+@font-face {
+    font-family: "aceh";
+    src: url("/build/assets/fonts/Aceh-Light.ttf") format("truetype");
 }
 
-a:visited {
-	color: rgb(0,80,160);
+h1 {
+    font-family: "museo-slab";
 }
 
-label {
-	display: block;
-}
-
-input, button, select, textarea {
-	font-family: inherit;
-	font-size: inherit;
-	padding: 0.4em;
-	margin: 0 0 0.5em 0;
-	box-sizing: border-box;
-	border: 1px solid #ccc;
-	border-radius: 2px;
+input,
+button,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0.4em;
+    margin: 0 0 0.5em 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 2px;
 }
 
 input:disabled {
-	color: #ccc;
+    color: #ccc;
 }
 
 input[type="range"] {
-	height: 0;
+    height: 0;
 }
 
 button {
-	color: #333;
-	background-color: #f4f4f4;
-	outline: none;
+    color: #333;
+    background-color: #f4f4f4;
+    outline: none;
 }
 
 button:disabled {
-	color: #999;
+    color: #999;
 }
 
 button:not(:disabled):active {
-	background-color: #ddd;
+    background-color: #ddd;
 }
 
 button:focus {
-	border-color: #666;
+    border-color: #666;
 }
